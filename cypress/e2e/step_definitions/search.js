@@ -6,15 +6,18 @@ import {
 } from "@badeball/cypress-cucumber-preprocessor";
 import {MainSearch} from '@pages/SearchPage';
 require('cypress-xpath');
+import 'cypress-mochawesome-reporter/cucumberSupport';
 
 
 
 //Scenario 1
 Given("A web browser is at the main search page", () => {
+ 
  MainSearch.visitSearchPage();
- MainSearch.acceptModals();
- MainSearch.clearAllData();
 
+ MainSearch.acceptModals();
+
+ MainSearch.clearAllData();
 //Assertions
  cy.url().should('to.be', 'https://www.kiwi.com/en/');
 
@@ -135,15 +138,15 @@ Then("The url will contain search subdirectory and have relevant results for spe
           cy.xpath('//div[@data-test="QuickNavigationSection"]').first().children().then((list) => {
               cy.wrap(list).children()
                   // .should('have.length', 10)
-                  .should('contain', `${departure_date} Jul`)
-                  .should('contain', `${arrival_date} Jul`);
+                  .should('contain', `${departure_date} Aug`)
+                  .should('contain', `${arrival_date} Aug`);
           });
       });
   });
 
   cy.get('@departure_date').then((departure_date) => {
     cy.get('@arrival_date').then((arrival_date) => {
-   cy.xpath(`//div[text()="${departure_date} Jul" and text()="${arrival_date} Jul"]`).then((child)=>{
+   cy.xpath(`//div[text()="${departure_date} Aug" and text()="${arrival_date} Aug"]`).then((child)=>{
     cy.wrap(child).parent().then((parent)=>{
       cy.wrap(parent).invoke('attr', 'class').then((classAttr)=>{
         expect(classAttr).to.include('border-2')

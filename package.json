@@ -6,7 +6,8 @@
   "scripts": {
     "open": "cypress open --e2e --browser chrome",
     "spec": "cypress open --e2e --browser chrome --env tags=@runThis",
-    "runner": "cypress run --e2e --browser chrome",
+    "runner": "cypress run --headed --e2e --browser chrome",
+    "runDash": "cypress run --headed --e2e --browser chrome --record --key f5bb5dd7-49aa-415d-827e-a9bc75ab89a5",
     "cypress:execution-tags": "cypress run --env tags=@mobile",
     "cypress:execution-allure": "cypress run --env allure=true",
     "allure:clear": "rm -r allure-results/ allure-report cypress/screenshots || true",
@@ -23,8 +24,10 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
     "@shelex/cypress-allure-plugin": "^2.34.0",
     "cypress": "^13.13.0",
+    "cypress-mochawesome-reporter": "^3.8.2",
     "cypress-xpath": "^2.0.1",
     "esbuild": "^0.16.4",
+    "mochawesome": "^7.1.3",
     "multiple-cucumber-html-reporter": "^3.0.1"
   }
 }

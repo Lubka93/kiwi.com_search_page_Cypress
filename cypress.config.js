@@ -37,4 +37,12 @@ module.exports = defineConfig({
       //viewportHeight: 700
     },
   },
+  video:true,
+  screenshotOnRunFailure:true,
+  projectId: "dids8c",
+  reporter: "cypress-mochawesome-reporter",
+  reporterOptions:{
+    charts: true, 
+    reportPageTitle: 'Kiwi search feature tests',
+  }
 });

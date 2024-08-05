@@ -46,8 +46,8 @@ if(body.find('section#cookie_consent').length) {
  
  addDeparture (departure) {
  
-   cy.xpath(this.searchFieldDepInput).type(departure).wait(1000);
-   cy.xpath(this.addDepartureItem).should('exist');
+   cy.xpath(this.searchFieldDepInput).type(departure);
+   cy.xpath(this.addDepartureItem).should('exist').wait(1000);
    cy.xpath(this.addDepartureItem).should('be.visible').click();
    cy.xpath(this.searchFieldDepInput).clear();
    cy.xpath(this.outOfSearchScope).click();
@@ -58,7 +58,7 @@ if(body.find('section#cookie_consent').length) {
  addArrival(arrival) {
  
   cy.xpath(this.searchFieldArrInput).type(arrival).wait(1000);
-  cy.xpath(this.addArrivalItem).should('exist');
+  cy.xpath(this.addArrivalItem).should('exist').wait(1000);
   cy.xpath(this.addArrivalItem).should('be.visible').click();
   cy.xpath(this.searchFieldArrInput).clear();
  }

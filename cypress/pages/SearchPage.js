@@ -4,8 +4,8 @@ class SearchPage {
  pickerCloseButton = '//div[@data-test="PlacePickerInput-origin"]//div[@data-test="PlacePickerInputPlace-close"]';
  searchFieldDepInput = "(//div[@class='relative']//input[@data-test='SearchField-input'])[1]";
  departureAirport = 'VIE Vienna International Airport';
- addDepartureItem = `//div[@data-test="PlacepickerModalOpened-origin"] //div[text()='${this.departureAirport}']`;
- deaparturePicker = '//div[@data-test="PlacePickerInput-origin"] //div[@data-test="PlacePickerInputPlace"]';
+ addDepartureItem = `//div[@data-test="PlacepickerModalOpened-origin"]//div[text()='${this.departureAirport}']`;
+ deaparturePicker = '//div[@data-test="PlacePickerInput-origin"]//div[@data-test="PlacePickerInputPlace"]';
 
  //Arrival
  placePickerInput_destination = '//div[@data-test="PlacePickerInput-destination"]';
@@ -95,7 +95,7 @@ if(body.find('section#cookie_consent').length) {
  }
 
 
-/*
+
  clearDepartureInput() {
     cy.get("div[data-test='PlacePickerInput-origin']").scrollIntoView().children()
     .then((cards)=>{
@@ -109,9 +109,9 @@ if(body.find('section#cookie_consent').length) {
       cy.log('Empty')
      }
     })
- }*/
+ }
 
- /*clearArrivalInput() {
+ clearArrivalInput() {
   cy.get('div[data-test="PlacePickerInput-destination"]').scrollIntoView().children()
   .then((cards)=>{
    if(cards.length > 2) {
@@ -125,7 +125,7 @@ if(body.find('section#cookie_consent').length) {
    }
   })
 }
-*/
+
 openSearchInTheSameTab () {
    // Step 1: Locate the element and get the href attribute
  cy.xpath(this.searchButton)

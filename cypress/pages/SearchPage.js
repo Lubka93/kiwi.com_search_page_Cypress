@@ -13,7 +13,7 @@ class SearchPage {
  searchFieldArrInput = "(//div[@class='relative'] //input[@data-test='SearchField-input'])[2]";
  arrivalAirport = 'OPO Porto';
  arrivalPicker ='//div[@data-test="PlacePickerInputPlace"]';
- addArrivalItem = `//div[@data-test="PlacepickerModalOpened-destination"] //div [text()='${this.arrivalAirport}']`;
+ addArrivalItem = `//div[@data-test="PlacepickerModalOpened-destination"]//div[text()="${this.arrivalAirport}"]`;
 
 
  //Main
@@ -62,8 +62,8 @@ if(body.find('section#cookie_consent').length) {
         })}
     })
   });
-   cy.xpath(this.searchFieldDepInput).type(departure);
-   cy.xpath(this.addDepartureItem).click();
+   cy.xpath(this.searchFieldDepInput).type(departure).wait(1000);
+   cy.xpath(this.addDepartureItem).should('be.visible').click();
    cy.xpath(this.searchFieldDepInput).clear();
    cy.xpath(this.outOfSearchScope).click();
  
@@ -89,11 +89,13 @@ if(body.find('section#cookie_consent').length) {
         })}
     });
   });
-  cy.xpath(this.searchFieldArrInput).type(arrival);
+  cy.xpath(this.searchFieldArrInput).type(arrival).wait(1000);
   cy.xpath(this.addArrivalItem).should('be.visible').click();
   cy.xpath(this.searchFieldArrInput).clear();
  }
 
+
+/*
  clearDepartureInput() {
     cy.get("div[data-test='PlacePickerInput-origin']").scrollIntoView().children()
     .then((cards)=>{
@@ -107,9 +109,9 @@ if(body.find('section#cookie_consent').length) {
       cy.log('Empty')
      }
     })
- }
+ }*/
 
- clearArrivalInput() {
+ /*clearArrivalInput() {
   cy.get('div[data-test="PlacePickerInput-destination"]').scrollIntoView().children()
   .then((cards)=>{
    if(cards.length > 2) {
@@ -123,7 +125,7 @@ if(body.find('section#cookie_consent').length) {
    }
   })
 }
-
+*/
 openSearchInTheSameTab () {
    // Step 1: Locate the element and get the href attribute
  cy.xpath(this.searchButton)

@@ -30,6 +30,7 @@ module.exports = defineConfig({
     specPattern: "cypress/e2e/features/*.feature",
     baseUrl: "https://www.kiwi.com/en",
     chromeWebSecurity: false,
+    defaultCommandTimeout: 10000,
   //  testIsolation: false,
     env: {
       allureReuseAfterSpec: true,

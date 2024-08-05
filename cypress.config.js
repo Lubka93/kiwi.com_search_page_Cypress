@@ -22,8 +22,8 @@ async function setupNodeEvents(on, config) {
 
 module.exports = defineConfig({
   retries: {            // for flaky tests .. based on the run/open mode it will GLOBALLY try to run test 2 or 3 times
-    runMode: 2,
-    openMode: 2,
+    runMode: 0,
+    openMode: 0,
   },
   e2e: {
     setupNodeEvents,

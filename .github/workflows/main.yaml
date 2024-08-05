@@ -12,5 +12,5 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm run crunDash
-          config-file: cypress.config.ts
+          start: npm run runDash
+          config-file: cypress.config.js

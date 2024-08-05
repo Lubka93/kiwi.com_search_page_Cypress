@@ -17,7 +17,7 @@ Given("A web browser is at the main search page", () => {
 
  MainSearch.acceptModals();
 
- //MainSearch.clearAllData();
+ MainSearch.clearAllData();
 //Assertions
  cy.url().should('to.be', 'https://www.kiwi.com/en/');
 
@@ -26,7 +26,7 @@ Given("A web browser is at the main search page", () => {
 When('A user valid departure {string}, the arrival {string}, and clicks on the search button', (departure,arrival) => {
 
 //For departure
-
+MainSearch.clearDepartureInput();
 MainSearch.addDeparture(departure);
 
 //Assertions
@@ -35,7 +35,7 @@ cy.xpath(MainSearch.deaparturePicker).then((text)=>{
    })
 
   //For arrival
-
+  MainSearch.clearArrivalInput();
   MainSearch.addArrival(arrival);
   cy.xpath(MainSearch.outOfSearchScope).click();
 
@@ -74,6 +74,7 @@ When("A user enters departure {string}, the arrival {string}, a departure date {
 
  
  //For departure
+ MainSearch.clearDepartureInput();
  MainSearch.addDeparture(departure);
  
  //Assertions
@@ -82,6 +83,7 @@ When("A user enters departure {string}, the arrival {string}, a departure date {
     })
  
 //For arrival
+MainSearch.clearArrivalInput();
    MainSearch.addArrival(arrival);
    cy.xpath(MainSearch.outOfSearchScope).click();
 
@@ -170,6 +172,7 @@ When('A user enters no departure, the arrival {string}, a departure date {string
     
     
    //Add arrival
+   MainSearch.clearArrivalInput()
       MainSearch.addArrival(arrival);
       cy.xpath(MainSearch.outOfSearchScope).click();
    //Add assertion for arrival
@@ -207,7 +210,7 @@ Then("The search button is disabled and result page is not opened", () => {
      
     //Assertions
     cy.url().should("contains", `${Cypress.config('baseUrl')}/`);
-
+  //  cy.xpath(MainSearch.searchButton).should('be.enabled');
       cy.xpath('//button[@data-test="LandingSearchButton"]').then((button)=>{
         cy.wrap(button).invoke('attr', 'class').then((classSearch)=>{
           expect(classSearch).to.include('cursor-not-allowed');
@@ -253,17 +256,17 @@ When('A user enters a departure {string}, no arrival destination, departure date
      cy.xpath('//button[@data-test="SearchFormDoneButton"]').should('be.visible').click();
 
    // Scroll to the top of the page
-     cy.scrollTo('top');
+  //   cy.scrollTo('top');
 
      //Hitting search button
      cy.xpath('//div[text()="Explore"]', {timeout:10000}).scrollIntoView().should('be.visible').click();
   
       });
       
-Then("The search button is disabled, result page is not opened", () => {
+Then("The search button is enabled and pop up is shown as a reasult", () => {
        
       //Assertions
       cy.url().should("contains", `${Cypress.config('baseUrl')}/`);
-      cy.xpath("//h2[text()='Where do you want to go?']").should('be.visible');
+     cy.xpath("//h2[text()='Where do you want to go?']").should('be.visible');
        });
      

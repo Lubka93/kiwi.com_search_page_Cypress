@@ -25,4 +25,4 @@ Feature: Search functionality
    Scenario: Invalid search with a missing arrival
    # Given A web browser is at the main search page
     When A user enters a departure "Vienna", no arrival destination, departure date "22", arrival date "27" and clicks the search button
-    Then The search button is disabled, result page is not opened
+    Then The search button is enabled and pop up is shown as a reasult

@@ -45,23 +45,7 @@ if(body.find('section#cookie_consent').length) {
  }
  
  addDeparture (departure) {
-  cy.xpath(this.placePickerInput_origin).then((parent) => {
-    // Check if the parent element has more than 2 children
-    cy.wrap(parent).children().then((children) => {
-      if (children.length <= 2) {
-        cy.log('empty');
-        cy.log(children.length);
-      } else {
-        // If there is more children
-        cy.xpath(this.pickerCloseButton).then((elements) => {
-          if (elements.length) {
-            cy.wrap(elements).each((element) => {
-              cy.wrap(element).click();
-              cy.log('not empty');
-            })}
-        })}
-    })
-  });
+ 
    cy.xpath(this.searchFieldDepInput).type(departure).wait(1000);
    cy.xpath(this.addDepartureItem).should('exist');
    cy.xpath(this.addDepartureItem).should('be.visible').click();
@@ -72,24 +56,7 @@ if(body.find('section#cookie_consent').length) {
 
 
  addArrival(arrival) {
-  cy.xpath(this.placePickerInput_destination).then((parent) => {
-    // Check if the parent element has more that 2 children
-    cy.wrap(parent).children().then((children) => {
-      if (children.length === 2) {
-        cy.log('empty');
-        cy.log(children.length)
-     
-      } else {
-        // If there is more than 2 children
-        cy.xpath(this.pickerClaseButton).then((elements) => {
-          if (elements.length) {
-            cy.wrap(elements).each((element) => {
-              cy.wrap(element).click();
-              cy.log('not empty');
-            })}
-        })}
-    });
-  });
+ 
   cy.xpath(this.searchFieldArrInput).type(arrival).wait(1000);
   cy.xpath(this.addArrivalItem).should('exist');
   cy.xpath(this.addArrivalItem).should('be.visible').click();

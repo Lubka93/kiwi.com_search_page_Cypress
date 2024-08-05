@@ -27,17 +27,16 @@ class SearchPage {
   }
   
   acceptModals() {
-
-  if (cy.get('section#cookie_consent')) { 
-  cy.on('window:confirm', () => true); // Intercept and accept alerts
+cy.get('body').then((body) =>{
+  cy.log(body.find('section#cookie_consent').length > 0);
+if(body.find('section#cookie_consent').length) {
   cy.xpath(this.acceptButton)
   .should('be.visible')
   .click({ force: true }); // Click on the accept button, force click if necessary
-
-cy.wait(1000); // I can adjust the wait time 
+  cy.wait(1000); // I can adjust the wait time 
+}
+})
  }
- }
-
 
  clearAllData(){
   cy.clearAllCookies();

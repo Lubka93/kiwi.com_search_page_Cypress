@@ -17,7 +17,7 @@ Given("A web browser is at the main search page", () => {
 
  MainSearch.acceptModals();
 
- MainSearch.clearAllData();
+ //MainSearch.clearAllData();
 //Assertions
  cy.url().should('to.be', 'https://www.kiwi.com/en/');
 

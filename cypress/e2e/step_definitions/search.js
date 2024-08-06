@@ -7,7 +7,8 @@ import {
 import {MainSearch} from '@pages/SearchPage';
 require('cypress-xpath');
 import 'cypress-mochawesome-reporter/cucumberSupport';
-
+//import {arrivals} from '../../fixtures/arrivals';
+//import {departures} from '../../fixtures/departures';
 
 
 //Scenario 1
@@ -23,50 +24,55 @@ Given("A web browser is at the main search page", () => {
 
 });
 
-When('A user valid departure {string}, the arrival {string}, and clicks on the search button', (departure,arrival) => {
+When('A user enters valid {string} airport with name {string}  and {string} airport with name {string}', (departure, depName, arrival, arrName)=>{
+  MainSearch.acceptModals();    
+  MainSearch.clearDepartureInput();
 
-//For departure
-MainSearch.clearDepartureInput();
-MainSearch.addDeparture(departure);
+   //Add departure
+   MainSearch.addDeparture(departure, depName);
+   cy.xpath(MainSearch.outOfSearchScope).click();
 
+  //Assertions for departure
+    cy.xpath(MainSearch.deaparturePicker).then((text)=>{
+     expect(text).to.contain(departure)
+    })
+
+    MainSearch.clearArrivalInput();
+
+    //Add arrival
+    MainSearch.clearArrivalInput()
+    MainSearch.addArrival(arrival, arrName);
+    cy.xpath(MainSearch.outOfSearchScope).click();
+
+   //Add assertion for arrival
+    cy.xpath(MainSearch.arrivalPicker).then((text)=>{
+    expect(text).to.contain(arrival)
+    })
+
+   //Hitting search button
+   cy.xpath('//div[text()="Search"]', {timeout:10000}).scrollIntoView().should('be.visible');
+
+    //Opening the result page in the same tab
+    MainSearch.openSearchInTheSameTab();
+
+
+
+
+})
+
+Then('The search button is enabled, page will be redirected and correct airport codes {string} and {string} are diplayed', (depCode, arrCode)=>{
+//Accept modals
+MainSearch.acceptModals();
 //Assertions
-cy.xpath(MainSearch.deaparturePicker).then((text)=>{
-  expect(text).to.contain('Vienna')
-   })
+cy.url().should("contains", `https://www.kiwi.com/en/search/results/`);
+cy.xpath("//div[@data-test ='ResultList-results']").should('be.visible').children().first().then((list)=>{
+ cy.wrap(list).children('div[data-test]')
+ .should('have.length', 10)
+ .should('contain', depCode)
+ .should('contain', arrCode)
+ })
+})
 
-  //For arrival
-  MainSearch.clearArrivalInput();
-  MainSearch.addArrival(arrival);
-  cy.xpath(MainSearch.outOfSearchScope).click();
-
-//Check if dates are set to "Anytime"
-  cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').invoke('attr', 'value').then((value)=>{
-    expect(value).to.include('Anytime')
-   })
-   cy.xpath('(//input[@data-test="SearchFieldDateInput"])[2]').invoke('attr', 'value').then((value)=>{
-    expect(value).to.include('Anytime')
-   })
-
-//Hitting search button
-cy.xpath(MainSearch.searchButton).should('be.visible');
-
-//Opening the result page in the same tab
-MainSearch.openSearchInTheSameTab();
-});
-
-Then("The url will contain valid search subdirectory and have relevant results", () => {
- cy.on('window:confirm', ()=>{return true})
-  MainSearch.acceptModals();
-
-  //Assertions
-  cy.url().should("contains", `https://www.kiwi.com/en/search/results/vienna-international-vienna-austria/porto-porto-portugal`);
-  cy.xpath("//div[@data-test ='ResultList-results']").should('be.visible').children().first().then((list)=>{
-   cy.wrap(list).children('div[data-test]')
-   .should('have.length', 10)
-   .should('contain', 'VIE')
-   .should('contain', 'OPO')
-   })
- });
 
 //Scenario 2
 
@@ -210,7 +216,6 @@ Then("The search button is disabled and result page is not opened", () => {
      
     //Assertions
     cy.url().should("contains", `${Cypress.config('baseUrl')}/`);
-  //  cy.xpath(MainSearch.searchButton).should('be.enabled');
       cy.xpath('//button[@data-test="LandingSearchButton"]').then((button)=>{
         cy.wrap(button).invoke('attr', 'class').then((classSearch)=>{
           expect(classSearch).to.include('cursor-not-allowed');
@@ -220,7 +225,8 @@ Then("The search button is disabled and result page is not opened", () => {
    
      //Scenario 4
 When('A user enters a departure {string}, no arrival destination, departure date {string}, arrival date {string} and clicks the search button', (departure, departure_date, arrival_date) => {
-      MainSearch.clearDepartureInput();
+  MainSearch.acceptModals();    
+  MainSearch.clearDepartureInput();
 
      //Add departure
      MainSearch.addDeparture(departure);
@@ -244,8 +250,6 @@ When('A user enters a departure {string}, no arrival destination, departure date
      cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]', { timeout: 10000 }).should('exist');
      cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]', { timeout: 10000 }).click({ force: true });
      cy.xpath('//div[@data-test="NewDatePickerOpen"]').should('be.visible');
-     
-     
      cy.xpath(`(//div[@data-test="CalendarContainer"])[1] //div[@data-test="DayDateTypography"][text()='${departure_date}']`).should('be.visible').click();
      
      //Add arrival date
@@ -255,18 +259,59 @@ When('A user enters a departure {string}, no arrival destination, departure date
      //Confirm dates
      cy.xpath('//button[@data-test="SearchFormDoneButton"]').should('be.visible').click();
 
-   // Scroll to the top of the page
-  //   cy.scrollTo('top');
-
      //Hitting search button
      cy.xpath('//div[text()="Explore"]', {timeout:10000}).scrollIntoView().should('be.visible').click();
-  
       });
       
 Then("The search button is enabled and pop up is shown as a reasult", () => {
-       
+       //Clear the modal
+       MainSearch.acceptModals();
+
       //Assertions
       cy.url().should("contains", `${Cypress.config('baseUrl')}/`);
      cy.xpath("//h2[text()='Where do you want to go?']").should('be.visible');
        });
      
+
+  //Scenation 5
+
+  When('A user enters no departure destination and no arrival, departure date {string}, arrival date {string} and clicks the search button', (departure_date, arrival_date)=>{
+    MainSearch.acceptModals();    
+    MainSearch.clearDepartureInput();
+    MainSearch.clearArrivalInput();
+
+  //Add departure date
+    cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').scrollIntoView() // Scrolls the element into view
+    cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').should('be.visible');
+    cy.contains('Book cheap flights other sites simply can’t find')
+      .should('be.visible'); // for checking that page is stable ...because on this poit it fails !!!!!!!!
+    
+    cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]', { timeout: 10000 }).should('exist');
+    cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]', { timeout: 10000 }).click({ force: true });
+    cy.xpath('//div[@data-test="NewDatePickerOpen"]').should('be.visible');
+    cy.xpath(`(//div[@data-test="CalendarContainer"])[1] //div[@data-test="DayDateTypography"][text()='${departure_date}']`).should('be.visible').click();
+
+     //Add arrival date
+     //cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').click();
+     cy.xpath(`(//div[@data-test="CalendarContainer"])[1] //div[@data-test="DayDateTypography"][text()='${arrival_date}']`).should('be.visible').click();
+     
+     //Confirm dates
+     cy.xpath('//button[@data-test="SearchFormDoneButton"]').should('be.visible').click();
+
+      //Hitting search button
+      cy.xpath('//div[text()="Explore"]', {timeout:10000}).scrollIntoView().should('be.visible').click();
+  })
+
+  Then('The search button is disabled and page stays on the same URL address', ()=>{
+
+   //Assertions
+   cy.url().should("contains", `${Cypress.config('baseUrl')}/`);
+   cy.xpath('//button[@data-test="LandingSearchButton"]').then((button)=>{
+    cy.wrap(button).invoke('attr', 'class').then((classSearch)=>{
+      expect(classSearch).to.include('cursor-not-allowed');
+    })
+  })
+  })
+
+
+

@@ -3,17 +3,14 @@ class SearchPage {
  placePickerInput_origin = `//div[@data-test="PlacePickerInput-origin"]`;
  pickerCloseButton = '//div[@data-test="PlacePickerInput-origin"]//div[@data-test="PlacePickerInputPlace-close"]';
  searchFieldDepInput = "(//div[@class='relative']//input[@data-test='SearchField-input'])[1]";
- departureAirport = 'VIE Vienna International Airport';
- addDepartureItem = `//div[@data-test="PlacepickerModalOpened-origin"]//div[text()='${this.departureAirport}']`;
  deaparturePicker = '//div[@data-test="PlacePickerInput-origin"]//div[@data-test="PlacePickerInputPlace"]';
 
  //Arrival
  placePickerInput_destination = '//div[@data-test="PlacePickerInput-destination"]';
  pickerClaseButton = '//div[@data-test="PlacePickerInput-destination"] //div[@data-test="PlacePickerInputPlace-close"]';
  searchFieldArrInput = "(//div[@class='relative'] //input[@data-test='SearchField-input'])[2]";
- arrivalAirport = 'OPO Porto';
  arrivalPicker ='//div[@data-test="PlacePickerInputPlace"]';
- addArrivalItem = `//div[@data-test="PlacepickerModalOpened-destination"]//div[text()="${this.arrivalAirport}"]`;
+ 
 
 
  //Main
@@ -21,15 +18,19 @@ class SearchPage {
  searchButton = '//a[@data-test="LandingSearchButton"]';
  acceptButton = '//button[@data-test="CookiesPopup-Accept"]';
 
+ 
+
 
   visitSearchPage() {
     cy.visit("/");
   }
   
   acceptModals() {
+    cy.on('window:alert',()=>{true});
 cy.get('body').then((body) =>{
-  cy.log(body.find('section#cookie_consent').length > 0);
+  //cy.log(body.find('section#cookie_consent').length > 0);
 if(body.find('section#cookie_consent').length) {
+
   cy.xpath(this.acceptButton)
   .should('be.visible')
   .click({ force: true }); // Click on the accept button, force click if necessary
@@ -44,27 +45,29 @@ if(body.find('section#cookie_consent').length) {
   cy.clearAllSessionStorage();
  }
  
- addDeparture (departure) {
+ addDeparture (departure, name) {
+    let addDepartureItem = `//div[@data-test="PlacepickerModalOpened-origin"]//div[text()='${name}']`;
+    
   cy.xpath(this.searchFieldDepInput)
   .type(departure) // Adding a delay to simulate user typing
   .should('have.value', departure);
 
-  cy.xpath(this.addDepartureItem).should('exist').should('be.visible').click();
+  cy.xpath(addDepartureItem).should('exist').should('be.visible').click();
    cy.xpath(this.searchFieldDepInput).clear();
    cy.xpath(this.outOfSearchScope).click();
- 
+  
  }
 
 
- addArrival(arrival) {
- 
+ addArrival(arrival, name) {
+  let addArrivalItem = `//div[@data-test="PlacepickerModalOpened-destination"]//div[text()="${name}"]`;
   cy.xpath(this.searchFieldArrInput)
   .type(arrival)
   .should('have.value', arrival);
 
   cy.xpath(this.searchFieldArrInput).click();
-  cy.xpath(this.addArrivalItem).should('exist');
-  cy.xpath(this.addArrivalItem).should('be.visible').click();
+  cy.xpath(addArrivalItem).should('exist');
+  cy.xpath(addArrivalItem).should('be.visible').click();
   cy.xpath(this.searchFieldArrInput).clear();
  }
 

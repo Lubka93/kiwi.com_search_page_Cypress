@@ -45,10 +45,11 @@ if(body.find('section#cookie_consent').length) {
  }
  
  addDeparture (departure) {
- 
-   cy.xpath(this.searchFieldDepInput).type(departure);
-   cy.xpath(this.addDepartureItem).should('exist').wait(1000);
-   cy.xpath(this.addDepartureItem).should('be.visible').click();
+  cy.xpath(this.searchFieldDepInput)
+  .type(departure) // Adding a delay to simulate user typing
+  .should('have.value', departure);
+
+  cy.xpath(this.addDepartureItem).should('exist').should('be.visible').click();
    cy.xpath(this.searchFieldDepInput).clear();
    cy.xpath(this.outOfSearchScope).click();
  
@@ -57,8 +58,12 @@ if(body.find('section#cookie_consent').length) {
 
  addArrival(arrival) {
  
-  cy.xpath(this.searchFieldArrInput).type(arrival).wait(1000);
-  cy.xpath(this.addArrivalItem).should('exist').wait(1000);
+  cy.xpath(this.searchFieldArrInput)
+  .type(arrival)
+  .should('have.value', arrival);
+
+  cy.xpath(this.searchFieldArrInput).click();
+  cy.xpath(this.addArrivalItem).should('exist');
   cy.xpath(this.addArrivalItem).should('be.visible').click();
   cy.xpath(this.searchFieldArrInput).clear();
  }

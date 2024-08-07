@@ -3,7 +3,7 @@
 
 #### Tests are written in JavaScript
 #### Cypress version : 13.13.0
-
+#### Node version : v20.9.0
 
 
 ## Running Cypress Tests Locally
@@ -30,7 +30,7 @@ Ensure you have the following installed on your system:
         ```bash
         npm run open
         ```
-    - To run all tests in headless mode:
+    - To run all tests in headless mode (chrome):
         ```bash
-        npm run runner
+        npm run runnerHeadless
         ```

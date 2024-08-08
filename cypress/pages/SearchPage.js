@@ -10,8 +10,6 @@ class SearchPage {
  pickerClaseButton = '//div[@data-test="PlacePickerInput-destination"] //div[@data-test="PlacePickerInputPlace-close"]';
  searchFieldArrInput = "(//div[@class='relative'] //input[@data-test='SearchField-input'])[2]";
  arrivalPicker ='//div[@data-test="PlacePickerInputPlace"]';
- 
-
 
  //Main
  outOfSearchScope = `//div[@data-test="Footer-Claim"]`;
@@ -19,16 +17,13 @@ class SearchPage {
  landingSearchButton = '//button[@data-test="LandingSearchButton"]';
  acceptButton = '//button[@data-test="CookiesPopup-Accept"]';
 
- 
-
-
   visitSearchPage() {
-    cy.visit("/");
+  cy.visit("/");
   }
   
   acceptModals() {
-    cy.on('window:alert',()=>{true});
-cy.get('body').then((body) =>{
+  cy.on('window:alert',()=>{true});
+  cy.get('body').then((body) =>{
 
 if(body.find('section#cookie_consent').length) {
 
@@ -50,7 +45,7 @@ if(body.find('section#cookie_consent').length) {
     let addDepartureItem = `//div[@data-test="PlacepickerModalOpened-origin"]//div[text()='${name}']`;
     
   cy.xpath(this.searchFieldDepInput)
-  .type(departure) // Adding a delay to simulate user typing
+  .type(departure)
   .should('have.value', departure);
 
   cy.xpath(addDepartureItem).should('exist').should('be.visible').click();
@@ -71,8 +66,6 @@ if(body.find('section#cookie_consent').length) {
   cy.xpath(addArrivalItem).should('be.visible').click();
   cy.xpath(this.searchFieldArrInput).clear();
  }
-
-
 
  clearDepartureInput() {
     cy.get("div[data-test='PlacePickerInput-origin']").scrollIntoView().children()
@@ -101,27 +94,26 @@ if(body.find('section#cookie_consent').length) {
 }
 
 openSearchInTheSameTab () {
-   // Step 1: Locate the element and get the href attribute
+   //  to locate the element with href attribute
  cy.xpath(this.searchButton)
  .invoke('attr', 'href')
  .then((url) => {
-    // Step 2: Intercept the window open event
+    // to intercept the window open event
     cy.window().then((win) => {
       cy.stub(win, 'open').callsFake((newUrl) => {
-        // Change the location of the current window to the new URL     
+        // to change the location of the current window to the new URL     
         win.location.href = newUrl;
       });
 
-      // Step 3: Use the extracted URL to open it in the same window
+      //  to use the extracted URL to open it in the same window
       win.location.href = url;
     });
   });
 }
 
-
 openDatePicker () {
  //For departure date
- cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').scrollIntoView() // Scrolls the element into view
+ cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').scrollIntoView() // scroll the element into view
  cy.xpath('(//input[@data-test="SearchFieldDateInput"])[1]').should('be.visible');
  cy.contains('Book cheap flights other sites simply can’t find')
    .should('be.visible'); // for checking that page is stable ...because on this poit it fails !!!!!!!!
@@ -164,7 +156,6 @@ cy.xpath(`(//div[@data-test="NewDatePickerOpen"] //button[@data-test='Datepicker
     checkMonthAndClick(0);
   }
 });
-
 }
 
 addArrivalDate (arrDay, arrMonth, arrYear) {
@@ -224,10 +215,6 @@ getCorrectMonth (month) {
         }
       })
       return nameOfTheMonth
-}
-
-}
-
-
+}}
 
 export const MainSearch = new SearchPage();

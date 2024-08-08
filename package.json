@@ -6,7 +6,7 @@
   "scripts": {
     "open": "cypress open --e2e --browser chrome",
     "spec": "cypress open --e2e --browser chrome --env tags=@runThis",
-    "runner": "cypress run --e2e --browser chrome",
+    "runner": "cypress run --e2e --headed --browser chrome",
     "runnerFirefox": "cypress run --e2e --headed --browser firefox",
     "runnerHeadless": "cypress run --e2e --browser firefox",
     "runDash": "cypress run --e2e --browser firefox  --record --key f5bb5dd7-49aa-415d-827e-a9bc75ab89a5"

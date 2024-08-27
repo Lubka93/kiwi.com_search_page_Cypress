@@ -42,7 +42,7 @@ if(body.find('section#cookie_consent').length) {
  }
  
  addDeparture (departure, name) {
-    let addDepartureItem = `//div[@data-test="PlacepickerModalOpened-origin"]//div[text()='${name}']`;
+    let addDepartureItem = ` //div[text()="${name}"]`;
     
   cy.xpath(this.searchFieldDepInput)
   .type(departure)

@@ -5,7 +5,7 @@ Feature: Search functionality
   Background: 
   Given A web browser is at the main search page
   
-
+  @runThis 
   Scenario Outline: Valid search with valid arrival airport and valid departure airport, departure and arrival dates are not set (positive)
   # Given A web browser is at the main search page
     When A user enters valid "<departure>" airport with name "<depName>"  and "<arrival>" airport with name "<arrName>"
@@ -17,13 +17,13 @@ Feature: Search functionality
         | Bratislava    | Vienna      | BTS Bratislava Airport           | VIE Vienna International Airport   | BTS         | VIE     |
         | Bratislava    | London      | BTS Bratislava Airport           | LGW Gatwick                        | BTS         | LGW     |
 
- 
+  
   Scenario: Search with valid departure, arrival airports and valid departure and arrival dates (positive)
   #  Given A web browser is at the main search page
     When A user enters departure "Vienna" "VIE Vienna International Airport", the arrival "Porto" "OPO Porto", departure date "today" "thisMonth" "thisYear" for today, arrival date "dayInNextMonth" "nextMonth" "thisYear" for next month and clicks on the search button
     Then The url will contain search subdirectory and have relevant results "VIE" and "OPO" for specific departure "today" "thisMonth" "thisYear" and arrival "dayInNextMonth" "next_month" "thisYear"
 
- 
+
   Scenario: Search with a missing departure airport (negative)
   # Given A web browser is at the main search page
     When A user enters no departure, the arrival "Porto" "OPO Porto",  departure date "today" "thisMonth" "thisYear" for today, arrival date "dayInNextMonth" "nextMonth" "thisYear" for next month and clicks on the search button
@@ -49,12 +49,12 @@ Feature: Search functionality
   
       Examples:
         | depDay | depMonth    | arrDay  | arrMonth     | depMonthAbbr | arrMonthAbbr | depYear | arrYear |
-        |   22   | August      | 27      |    August    |       Aug    |       Aug    |   2024  |  2024   |
+        |   29   | August      | 31      |    August    |       Aug    |       Aug    |   2024  |  2024   |
         |   22   | September   | 27      |    October   |      Sept    |       Oct    |   2024  |  2024   |
         |   22   | September   | 27      |    November  |      Sept    |       Nov    |   2024  |  2024   |
 
 
-  @runThis  
+  
    Scenario Outline: Search with the same value for arrival airport and departure airport, departure and arrival dates are not set (negative)
   # Given A web browser is at the main search page
     When A user enters the same value for "<departure>" airport with name "<depName>"  and "<arrival>" airport with name "<arrName>"
@@ -94,7 +94,7 @@ Feature: Search functionality
          | departure        | arrival        | depName                          | arrName                            | depCode     | arrCode |
          |   EMPTY          | Vienna         | EMPTY                            | VIE Vienna International Airport   | EMPTY       | VIE     |
          |   EMPTY          | EMPTY          | EMPTY                            | EMPTY                              | EMPTY       | EMPTY   |
-
+ @runThis 
    Scenario Outline: Search with the valid value for arrival airport and empty value for departure airport, departure and arrival dates are not set (negative)
   # Given A web browser is at the main search page
     When A user enters the valid value for "<departure>" airport with name "<depName>"  and  empty value for "<arrival>" airport with name "<arrName>"

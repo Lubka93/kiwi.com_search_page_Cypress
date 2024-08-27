@@ -64,7 +64,8 @@ Then('The search button is enabled, page will be redirected and correct airport 
 MainSearch.acceptModals();
 //Assertions
 cy.url().should("contains", `https://www.kiwi.com/en/search/results/`);
-cy.xpath("//div[@data-test ='ResultList-results']").should('be.visible').children().first().then((list)=>{
+cy.wait(500);
+cy.xpath(`//div [@data-test="ResultList-results"]`).should('be.visible').children().first().then((list)=>{
  cy.wrap(list).children('div[data-test]')
  .should('have.length', 10)
  .should('contain', depCode)
@@ -116,6 +117,7 @@ cy.xpath('//button[@data-test="SearchFormDoneButton"]').should('be.visible').cli
 
 //Click out of scope
 cy.xpath(MainSearch.outOfSearchScope).click();
+
 //Hitting search button
  cy.xpath(MainSearch.searchButton).scrollIntoView().should('be.visible');
  
@@ -355,7 +357,7 @@ MainSearch.addArrivalDate (arrDay, arrMonth, arrYear);
  //Confirm dates
  cy.xpath('//button[@data-test="SearchFormDoneButton"]').should('be.visible').click();
  
-
+cy.wait(500);
  //Hitting search button
   cy.xpath(MainSearch.searchButton).scrollIntoView().should('be.visible');
   
